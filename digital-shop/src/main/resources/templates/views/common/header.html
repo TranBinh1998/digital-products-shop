@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<header th:fragment="commonHeader" id="default_header" class="header_style_1">
+    <!-- header top -->
+
+
+    <div class="header_top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="full">
+                        <div class="topbar-left">
+                            <ul class="list-inline">
+                                <li><span class="topbar-label"><i class="fa  fa-home"></i></span> <span
+                                        class="topbar-hightlight">540 Lorem Ipsum New York, AB 90218</span></li>
+                                <li><span class="topbar-label"><i class="fa fa-envelope-o"></i></span> <span
+                                        class="topbar-hightlight"><a href="mailto:info@yourdomain.com">info@yourdomain.com</a></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 right_section_header_top">
+                    <div class="float-right">
+                        <div class="social_icon">
+                            <ul class="list-inline">
+                                <!--                                <li><a class="fa fa-facebook" href="https://www.facebook.com/" title="Facebook"-->
+                                <!--                                       target="_blank"></a></li>-->
+                                <li class="mr-5">
+                                    <div style="align-items:  center;" class="d-flex flex-column">
+                                        <a style="font-size: 32px" class="fa fa-shopping-cart d-block" href=""
+                                           th:href="@{/cart/list-product}"
+                                           target="_blank">
+                                        </a>
+                                        <a class="" th:href="@{/cart/list-product}">Giỏ Hàng</a>
+
+                                    </div>
+                                </li>
+                                <li>
+                                    <div style="align-items:  center;" class="d-flex flex-column">
+                                        <a style="font-size: 32px" class="fa fa-user d-block"
+                                           target="_blank">
+                                        </a>
+                                        <div sec:authorize="!isAuthenticated()">
+                                            <a th:href="@{/login/showLoginPage}" class="">Tài Khoản Của Tôi</a>
+                                        </div>
+                                        <div sec:authorize="isAuthenticated()">
+                                            <a id="user-name" sec:authentication="principal.username" href="#"></a>
+                                        </div>
+
+                                    </div>
+                                </li>
+                            </ul>
+
+                        </div>
+                        <div class="float-right ml-5" sec:authorize="isAuthenticated()">
+                            <form action="#" th:action="@{/logout}" method="POST">
+                                <input type="submit" class="mt-2 btn btn-sm btn-success" value="Đăng xuất"/>
+                            </form>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- end header top -->
+    <!-- header bottom -->
+    <div class="header_bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                    <!-- logo start -->
+                    <div class="logo"><a th:href="@{/}" href=""><img src="images/logos/it_logo.png"
+                                                                     th:src="@{/user/images/logos/it_logo.png}"
+                                                                     alt="logo"/></a>
+                    </div>
+                    <!-- logo end -->
+                </div>
+                <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                    <!-- menu start -->
+                    <div class="menu_side">
+                        <div id="navbar_menu">
+                            <ul class="first-ul">
+                                <li><a class="active" href="it_home.html">Home</a>
+                                    <ul>
+                                        <li><a href="it_home.html">It Home Page</a></li>
+                                        <li><a href="it_home_dark.html">It Dark Home Page</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="it_about.html">About Us</a></li>
+                                <li><a href="it_service.html">Service</a>
+                                    <ul>
+                                        <li><a href="it_service_list.html">Services list</a></li>
+                                        <li><a href="it_service_detail.html">Services Detail</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="it_blog.html">Blog</a>
+                                    <ul>
+                                        <li><a href="it_blog.html">Blog List</a></li>
+                                        <li><a href="it_blog_grid.html">Blog Grid</a></li>
+                                        <li><a href="it_blog_detail.html">Blog Detail</a></li>
+                                    </ul>
+                                </li>
+                                <!--                                Header nên fix cứng hay fix mềm-->
+                                <li><a th:href="@{/san-phams/all}" href="#">Sản Phẩm</a>
+                                    <!--                                    Fix mềm phần sản phẩm  -->
+                                    <!--                                    <ul>-->
+                                    <!--                                        <li><a href="it_career.html">Laptop</a></li>-->
+                                    <!--                                        <li><a href="it_price.html">PC</a></li>-->
+                                    <!--                                        <li><a href="it_faq.html">Màn Hình</a></li>-->
+                                    <!--                                        <li><a href="it_privacy_policy.html">Bàn Phím</a></li>-->
+                                    <!--                                        <li><a href="it_error.html">Chuột</a></li>-->
+                                    <!--                                    </ul>-->
+                                </li>
+                                <li><a>Thương Hiệu</a>
+                                    <ul>
+                                        <li th:each="hang : ${hangSanXuats}">
+                                            <a th:href="@{/san-phams/brands(id=${hang.id})}" href=""
+                                               th:text="${hang.tenHangSanXuat}">
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li><a th:href="@{/login/showLoginPage}" sec:authorize="!isAuthenticated()" href="">Đăng
+                                    Nhập</a>
+                                    <ul>
+                                        <li><a th:href="@{/register/showRegisterForm}" href="">Đăng kí</a></li>
+
+                                    </ul>
+                                </li>
+
+
+                                <li sec:authorize="isAuthenticated()">
+                                    <a id="user-name" sec:authentication="principal.username" href="#"></a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--                        <div class="search_icon">-->
+                        <!--                            <ul>-->
+                        <!--                                <li><a href="#" data-toggle="modal" data-target="#search_bar"><i class="fa fa-search"-->
+                        <!--                                                                                                 aria-hidden="true"></i></a>-->
+                        <!--                                </li>-->
+                        <!--                            </ul>-->
+                        <!--                        </div>-->
+                    </div>
+                    <!-- menu end -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- header bottom end -->
+</header>
+
+</body>
+</html>

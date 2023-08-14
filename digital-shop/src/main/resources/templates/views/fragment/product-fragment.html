@@ -1,0 +1,55 @@
+<!DOCTYPE html >
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="row"  th:fragment="productsList(sanPhams)">
+
+    <div th:each="sanPham : ${sanPhams}" class="col-lg-3 col-md-6 col-sm-6 col-xs-12 margin_bottom_30_all">
+        <div class="product_list">
+            <div class="product_img"><img class="img-responsive" src="images/it_service/1.jpg"
+                                          th:src="@{${'/uploads/' + sanPham.photo}}" alt=""></div>
+            <div class="product_detail_btm">
+                <div class="center">
+                    <h4><a th:href="@{/san-phams/detail-product(id=${sanPham.id})}" href="" th:text="${sanPham.tenSanPham}"></a></h4>
+                </div>
+                <div class="starratin">
+                    <div class="center"><i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star"
+                                                                                         aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star"
+                                                                         aria-hidden="true"></i> <i
+                                class="fa fa-star-o" aria-hidden="true"></i></div>
+                </div>
+                <div class="product_price">
+                    <p><span class="old_price">$15.00</span> – <span class="new_price"
+                                                                     th:text="${#numbers.formatDecimal(sanPham.donGia, 0, 'COMMA', 0, 'POINT')} + '  đ'"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="clear: both"></div>
+    <div style="width: 800px;  margin: 0 auto;" class="row center tm-mb-90">
+        <span id="alert-pagination"></span>
+        <div id="pagination" class="col-12 d-flex justify-content-between align-items-center tm-paging-col">
+<!--         Khi click bào previous thì page hiện tại -1 gửi 1 request về server nếu page hiện tại = 1 thì nút nó sẽ bị  disabled   -->
+            <span  id="previous-btn" th:class="${page == 0 ? 'btn btn-primary mb-2 disabled' : 'btn btn-primary mb-2'}"  class="">Previous</span>
+            <div class="tm-paging d-flex">
+                <ul th:each="i : ${#numbers.sequence(1 , sanPhams.getTotalPages())}">
+                    <li id="li-page-index">
+                        <!--                        Xử lí vấn đề nếu page = 0 thì active i = 1 nếu page = 1 thì active page = 2-->
+                        <span  href="" class="m-2 btn-lg btn-outline-primary pageIndex" th:if="${page == i-1}" th:classappend="active"  th:text="${i}"></span>
+                        <span  href="" class="m-2 btn-lg btn-outline-primary pageIndex" th:unless="${page == i-1}"  th:text="${i}"></span>
+                    </li>
+                </ul>
+<!--               Bài toán là lấy giá trị của  getTotalPages ép kiểu  nếu nó = 0 thì -->
+                <span hidden id="getTotalPages" th:text="${sanPhams.getTotalPages()}"></span>
+            </div>
+            <span  id="next-page-btn"  th:class="${page == sanPhams.getTotalPages()-1 ? 'btn btn-primary mb-2 disabled' : 'btn btn-primary mb-2'}"  class="">Next Page</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{views/common/headcommon :: commonHead}"></head>
+
+
+<body id="default_theme" class="it_service">
+
+<header th:replace="~{views/common/header :: commonHeader}"></header>
+
+<div class="w-25 container">
+    <form action="#" th:action="@{/authenticateTheUser}" method="POST">
+        <div th:if="${param.error}">
+            <span style="color:red">Đăng nhập không thành công,<br/> vui lòng kiểm tra lại mật khẩu hoặc tài khoản!</span>
+        </div>
+        <!-- Email input -->
+        <div class="form-outline mb-4">
+            <input type="text" id="form2Example1" name="username" class="form-control" />
+            <label class="form-label" for="form2Example1">userName</label>
+        </div>
+
+        <!-- Password input -->
+        <div class="form-outline mb-4">
+            <input type="password" name="password" id="form2Example2" class="form-control" />
+            <label class="form-label" for="form2Example2">Mật Khẩu</label>
+        </div>
+
+        <!-- 2 column grid layout for inline styling -->
+        <div class="row mb-4">
+            <div class="col d-flex justify-content-center">
+                <!-- Checkbox -->
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="form2Example31"  />
+                    <label class="form-check-label" for="form2Example31">Lưu mật khẩu</label>
+                </div>
+            </div>
+
+            <div class="col">
+                <!-- Simple link -->
+                <a href="#!">Quên mật khẩu</a>
+            </div>
+        </div>
+
+        <!-- Submit button -->
+        <button type="submit" class="btn btn-primary btn-block mb-4">Đăng nhập</button>
+
+    </form>
+    <!-- Register buttons -->
+    <div class="text-center">
+        <p>Chưa có tài khoản <a th:href="@{/register/showRegisterForm}" href="#!">Đăng Kí</a></p>
+
+
+    </div>
+</div>
+
+<footer th:replace="~{views/common/footer :: commonFooter}"></footer>
+
+
+<script th:src="@{/user/js/jquery.min.js}"></script>
+<script th:src="@{/user/js/bootstrap.min.js}"></script>
+<!-- menu js -->
+<script th:src="@{/user/js/menumaker.js}"></script>
+<!-- wow animation -->
+<script th:src="@{/user/js/wow.js}"></script>
+<!-- custom js -->
+<script th:src="@{/user/js/custom.js}"></script>
+<!-- revolution js files -->
+<script th:src="@{/user/revolution/js/jquery.themepunch.tools.min.js}"></script>
+<script th:src="@{/user/revolution/js/jquery.themepunch.revolution.min.js}"></script>
+<script th:src="@{/user/revolution/js/extensions/revolution.extension.actions.min.js}"></script>
+<script th:src="@{/user/revolution/js/extensions/revolution.extension.carousel.min.js}"></script>
+<script th:src="@{/user/revolution/js/extensions/revolution.extension.kenburn.min.js}"></script>
+<script th:src="@{/user/revolution/js/extensions/revolution.extension.layeranimation.min.js}"></script>
+<script th:src="@{/user/revolution/js/extensions/revolution.extension.migration.min.js}"></script>
+<script th:src="@{/user/revolution/js/extensions/revolution.extension.navigation.min.js}"></script>
+<script th:src="@{/user/revolution/js/extensions/revolution.extension.parallax.min.js}"></script>
+<script th:src="@{/user/revolution/js/extensions/revolution.extension.slideanims.min.js}"></script>
+<script th:src="@{/user/revolution/js/extensions/revolution.extension.video.min.js}"></script>
+
+
+</body>
+</html>

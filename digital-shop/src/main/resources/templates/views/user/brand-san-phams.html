@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{views/common/headcommon :: commonHead}"></head>
+
+
+<body id="default_theme" class="it_service">
+
+<header th:replace="~{views/common/header :: commonHeader}"></header>
+
+<div class="section padding_layout_1">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="full ">
+                    <div class="d-flex justify-content-md-between mb-3 align-items-center">
+                        <input id="idHangSanXuat" hidden th:value="${idHangSanXuat}" value="" >
+                        <select id="selectProduct" class="mr-5 mb-0 form-select-lg form-control-lg">
+                            <div th:each="danhMuc : ${danhMucs}">
+                                <option th:value="${danhMuc.id}" value="" th:text="${danhMuc.tenDanhMuc}"></option>
+                            </div>
+                        </select>
+                        <!--                    Vẫn hiển thị ra sản phẩm như vậy nhưng chỉ là có hãng    -->
+
+                        <select id="selecsort" class="mb-0 form-select-lg form-control-lg">
+                            <option value="1">Sản Phẩm Mới Nhất</option>
+                            <option value="2">Giá giảm đần</option>
+                            <option value="3">Giá tăng dần</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="products">
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- End Model search bar -->
+<!-- footer -->
+<footer th:replace="~{views/common/footer :: commonFooter}"></footer>
+
+
+<script th:src="@{/user/js/jquery.min.js}"></script>
+<script th:src="@{/user/js/bootstrap.min.js}"></script>
+<!-- menu js -->
+<script th:src="@{/user/js/menumaker.js}"></script>
+<!-- wow animation -->
+<script th:src="@{/user/js/wow.js}"></script>
+<!-- custom js -->
+<script th:src="@{/user/js/custom.js}"></script>
+<!-- revolution js files -->
+<script th:src="@{/user/revolution/js/jquery.themepunch.tools.min.js}"></script>
+<script th:src="@{/user/revolution/js/jquery.themepunch.revolution.min.js}"></script>
+<script th:src="@{/user/revolution/js/extensions/revolution.extension.actions.min.js}"></script>
+<script th:src="@{/user/revolution/js/extensions/revolution.extension.carousel.min.js}"></script>
+<script th:src="@{/user/revolution/js/extensions/revolution.extension.kenburn.min.js}"></script>
+<script th:src="@{/user/revolution/js/extensions/revolution.extension.layeranimation.min.js}"></script>
+<script th:src="@{/user/revolution/js/extensions/revolution.extension.migration.min.js}"></script>
+<script th:src="@{/user/revolution/js/extensions/revolution.extension.navigation.min.js}"></script>
+<script th:src="@{/user/revolution/js/extensions/revolution.extension.parallax.min.js}"></script>
+<script th:src="@{/user/revolution/js/extensions/revolution.extension.slideanims.min.js}"></script>
+<script th:src="@{/user/revolution/js/extensions/revolution.extension.video.min.js}"></script>
+
+
+<!--<script>-->
+<!--    var totalPage = document.getElementById('getTotalPages').textContent;-->
+<!--    var pagination = document.getElementById('pagination');-->
+<!--    console.log(totalPage);-->
+<!--    if (totalPage == "0" || totalPage == null) {-->
+<!--        pagination.style.display = "none !important";-->
+<!--    }-->
+<!--</script>-->
+
+<script>
+    // Tách gửi ajax về server ra 1 hàm chỉ gọi khi cần
+    function getProducts(productType, productSort, pageIndex,idHangSanXuat) {
+        // Gửi yêu cầu ajax đến url /getProducts với tham số là productType
+        $.ajax({
+            url: "/api/get-products-brand?productType=" + productType + "&productSort=" + productSort + "&productBrand=" +idHangSanXuat +"&pageIndex=" + pageIndex  ,
+            type: "GET",
+            contentType: "application/json",
+        }).done(function (data) {
+            // Nhận được fragment html từ server và chèn vào div có id là products
+            $("#products").html(data);
+            window.scrollTo(1,1);
+            var totalPage = $('#getTotalPages').text();
+            var pagination = $('#pagination');
+            console.log(totalPage);
+            if (totalPage == "0" || totalPage == null) {
+                $("#pagination")[0].style.setProperty("display", "none", "important");
+                $("#alert-pagination").text("Không tìm thấy sản phẩm phù hợp");
+
+            }
+        });
+    }
+    $(document).ready(function () {
+        // Gán giá trị của select box là 1
+        $('#selectProduct').val(1);
+        // Kích hoạt sự kiện change cho select box
+        $('#selectProduct').change();
+
+
+        $('#selecsort').val(1)
+        // Kích hoạt sự kiện cho selecsort
+        $('#selecsort').change();
+    });
+    $('#selectProduct').change(function () {
+        // Lấy giá trị của select box
+        var page = '0';
+        var idHangSanXuat = $('#idHangSanXuat').val();
+        var productSort = $('#selecsort').val();
+        var productType = $(this).val();
+
+
+        // Gửi yêu cầu ajax đến url /getProducts với tham số là productType
+        getProducts(productType, productSort,page, idHangSanXuat);
+    });
+    $('#selecsort').change(function () {
+        // Lấy giá trị của select box
+        var page = '0';
+        var idHangSanXuat = $('#idHangSanXuat').val();
+        var productSort = $(this).val();
+        var productType = $('#selectProduct').val();
+        console.log("page =" +page);
+        console.log("sort ="+productSort);
+        console.log("tyepe ="+productType);
+        // Gửi yêu cầu ajax đến url /getProducts với tham số là productType
+        getProducts(productType, productSort,page, idHangSanXuat);
+    });
+    var page = 1;
+    $('body').on("click", '.pageIndex', function (){
+        page = $(this).text();
+        var idHangSanXuat = $('#idHangSanXuat').val();
+        var productSort = $('#selecsort').val();
+        var productType = $('#selectProduct').val();
+        // Gửi yêu cầu ajax đến url /getProducts với tham số là productType
+        getProducts(productType, productSort,page, idHangSanXuat);
+    });
+    $('body').on("click","#next-page-btn", function (){
+        var productSort = $('#selecsort').val();
+        var idHangSanXuat = $('#idHangSanXuat').val();
+        var productType = $('#selectProduct').val();
+        page = Number(page)+1;
+        getProducts(productType, productSort,page, idHangSanXuat);
+    });
+    $('body').on("click","#previous-btn", function (){
+        var productSort = $('#selecsort').val();
+        var idHangSanXuat = $('#idHangSanXuat').val();
+        var productType = $('#selectProduct').val();
+        page = Number(page)-1;
+        getProducts(productType, productSort,page, idHangSanXuat);
+    });
+
+
+
+
+    // Y tưởng : Khi mình ấn vào nút next nút thì lúc này pgae sẽ bằng page+1 gửi về server page đó nếu page = max page thì disble nút next
+    // không cho nó có thể ấn được nữa
+    // ngược lại khi mà ấn nút back thi page0-1 gửi về server nhận page mới khi mà page = 1  thì k thể ấn nút back và khi page lớn hơn 1 thì pa
+
+
+
+
+
+</script>
+<!--<script>-->
+<!--    -->
+<!--    var totalPage = document.getElementById("getTotalPages");-->
+<!--    var pagination = document.getElementById("pagination");-->
+<!--    if (totalPage.textContent == "" || totalPage.textContent == null) {-->
+<!--        pagination.style.display = 'none';-->
+<!--    }-->
+<!--</script>-->
+<!--<script>-->
+<!--    // Khi người dùng chọn một loại sản phẩm từ select box-->
+<!--    $('#selectProduct').change(function (){-->
+<!--        // Lấy giá trị của select box-->
+<!--        var productType = $(this).val();-->
+<!--        // Tạo một biến để lưu trữ tên của loại sản phẩm-->
+<!--        var productName;-->
+<!--        // Sử dụng switch case để gán tên cho biến productName-->
+<!--        switch (productType) {-->
+<!--            case "1":-->
+<!--                productName = "Laptop";-->
+<!--                break;-->
+<!--            case "2":-->
+<!--                productName = "PC";-->
+<!--                break;-->
+<!--            case "3":-->
+<!--                productName = "Bàn phím";-->
+<!--                break;-->
+<!--            default:-->
+<!--                productName = "Sản phẩm";-->
+<!--        }-->
+<!--        // Thay đổi nội dung của thẻ h3 bằng cách nối tên sản phẩm với chuỗi " mới nhất"-->
+<!--        $('#productName').text(productName + " mới nhất");-->
+<!--    });-->
+<!--</script>-->
+
+
+</body>
+</html>

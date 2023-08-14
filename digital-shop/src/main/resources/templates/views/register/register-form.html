@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{views/common/headcommon :: commonHead}"></head>
+
+
+<body id="default_theme" class="it_service">
+
+<header th:replace="~{views/common/header :: commonHeader}"></header>
+
+
+<div class="container">
+
+    <div class="card border-white bg-white">
+        <article class="card-body w-50 mx-auto">
+            <h4 class="card-title mt-3 text-center">Create Account</h4>
+            <p class="text-center">Get started with your free account</p>
+            <form action="#"  th:action="@{/register/process}"
+                  th:object="${registerUser}" method="POST">
+
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-user"></i></span>
+                    </div>
+                    <input name="" th:field="*{userName}" class="form-control" placeholder="Tên đăng nhập" type="text">
+                </div> <!-- form-group// -->
+                <div th:if="${#fields.hasErrors('userName')}">
+                    <ul>
+                        <li style="color: red" th:each="e: ${#fields.errors('userName')}" th:text="${e}"></li>
+                    </ul>
+                </div>
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-user"></i></span>
+                    </div>
+                    <input name="" th:field="*{hoVaTen}" class="form-control" placeholder="Full name" type="text">
+                </div> <!-- form-group// -->
+                <div th:if="${#fields.hasErrors('hoVaTen')}">
+                    <ul>
+                        <li style="color: red" th:each="e: ${#fields.errors('hoVaTen')}" th:text="${e}"></li>
+                    </ul>
+                </div>
+                <div class="form-group w-100 input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+                    </div>
+                    <input name="" th:field="*{email}" class="form-control" placeholder="Email address" type="email">
+                </div>
+                <div th:if="${#fields.hasErrors('email')}">
+                    <ul>
+                        <li style="color: red" th:each="e: ${#fields.errors('email')}" th:text="${e}"></li>
+                    </ul>
+                </div>
+                <!-- form-group// -->
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
+                    </div>
+
+                    <input name="" th:field="*{soDienThoai}" class="form-control" placeholder="Phone number" type="text">
+
+                </div> <!-- form-group// -->
+                <div th:if="${#fields.hasErrors('soDienThoai')}">
+                    <ul>
+                        <li style="color: red" th:each="e: ${#fields.errors('soDienThoai')}" th:text="${e}"></li>
+                    </ul>
+                </div>
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-building"></i> </span>
+                    </div>
+                    <input name="" th:field="*{diaChi}" class="form-control" placeholder="Nhập địa chỉ" type="text">
+                </div> <!-- form-group end.// -->
+                <div th:if="${#fields.hasErrors('diaChi')}">
+                    <ul>
+                        <li style="color: red" th:each="e: ${#fields.errors('diaChi')}" th:text="${e}"></li>
+                    </ul>
+                </div>
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                    </div>
+                    <input  th:field="*{password}" class="form-control" placeholder="Nhập mật khẩu" type="password">
+
+                </div> <!-- form-group// -->
+                <div th:if="${#fields.hasErrors('password')}">
+                    <ul>
+                        <li style="color: red" th:each="e: ${#fields.errors('password')}" th:text="${e}"></li>
+                    </ul>
+                </div>
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                    </div>
+                    <input th:field="*{rePassword}"  class="form-control" placeholder="Nhập lại mật khẩu" type="password">
+                </div>
+                <div th:if="${#fields.hasErrors('rePassword')}">
+                    <ul>
+                        <li style="color: red" th:each="e: ${#fields.errors('rePassword')}" th:text="${e}"></li>
+                    </ul>
+                </div>
+                <span style="color: red" th:text="${confirmPass}"></span>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary w-25 mx-auto btn-block"> Create Account  </button>
+                </div> <!-- form-group// -->
+                <p class="text-center">Have an account? <a  href="">Log In</a> </p>
+            </form>
+        </article>
+    </div> <!-- card.// -->
+
+</div>
+<!--container end.//-->
+
+<br><br>
+<article class="bg-secondary mb-3">
+    <div class="card-body text-center">
+        <h3 class="text-white mt-3">Bootstrap 4 UI KIT</h3>
+        <p class="h5 text-white">Components and templates  <br> for Ecommerce, marketplace, booking websites
+            and product landing pages</p>   <br>
+        <p><a class="btn btn-warning" target="_blank" href="http://bootstrap-ecommerce.com/"> Bootstrap-ecommerce.com
+            <i class="fa fa-window-restore "></i></a></p>
+    </div>
+    <br><br>
+</article>
+
+
+
+<footer th:replace="~{views/common/footer :: commonFooter}"></footer>
+
+
+<script th:src="@{/user/js/jquery.min.js}"></script>
+<script th:src="@{/user/js/bootstrap.min.js}"></script>
+<!-- menu js -->
+<script th:src="@{/user/js/menumaker.js}"></script>
+<!-- wow animation -->
+<script th:src="@{/user/js/wow.js}"></script>
+<!-- custom js -->
+<script th:src="@{/user/js/custom.js}"></script>
+<!-- revolution js files -->
+<script th:src="@{/user/revolution/js/jquery.themepunch.tools.min.js}"></script>
+<script th:src="@{/user/revolution/js/jquery.themepunch.revolution.min.js}"></script>
+<script th:src="@{/user/revolution/js/extensions/revolution.extension.actions.min.js}"></script>
+<script th:src="@{/user/revolution/js/extensions/revolution.extension.carousel.min.js}"></script>
+<script th:src="@{/user/revolution/js/extensions/revolution.extension.kenburn.min.js}"></script>
+<script th:src="@{/user/revolution/js/extensions/revolution.extension.layeranimation.min.js}"></script>
+<script th:src="@{/user/revolution/js/extensions/revolution.extension.migration.min.js}"></script>
+<script th:src="@{/user/revolution/js/extensions/revolution.extension.navigation.min.js}"></script>
+<script th:src="@{/user/revolution/js/extensions/revolution.extension.parallax.min.js}"></script>
+<script th:src="@{/user/revolution/js/extensions/revolution.extension.slideanims.min.js}"></script>
+<script th:src="@{/user/revolution/js/extensions/revolution.extension.video.min.js}"></script>
+
+
+</body>
+</html>
