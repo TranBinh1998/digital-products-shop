@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{views/common/headcommon :: commonHead}"></head>
+<head th:replace="~{views/common/headcommon :: commonHead}">
+</head>
 
 
 <body id="default_theme" class="it_service">
@@ -35,7 +36,7 @@
                                     <input step="1" min="1" max="5" name="quantity" value="1" title="Qty"
                                            class="input-text qty text" size="4" type="number">
                                 </div>
-                                <button type="button"  onclick="addProductToCart()"  class="btn sqaure_bt">Add to cart</button>
+                                <button type="button" onclick="addProductToCart()" class="btn sqaure_bt">Add to cart</button>
                             </div>
                         </div>
                         <div class="share-post"><a href="#" class="share-text">Share</a>
@@ -365,29 +366,72 @@
 <!-- End sesstion -->
 <!-- footer -->
 <footer th:replace="~{views/common/footer :: commonFooter}"></footer>
+
+
+<script th:src="@{/user/js/jquery.min.js}"></script>
+<script th:src="@{/user/js/bootstrap.min.js}"></script>
 <script>
     console.log("Viết code add sản phẩm giỏ hàng ở đây");
+    // Tạo 1jsson
+
 
     function addProductToCart() {
-        // productId, userName, quantity
-        // Gửi yêu cầu ajax đến url /getProducts với tham số là productType
         $.ajax({
-            url: "/cart-api/cart-products?userName=" + "chicken" + "&idProduct=" + "5" + "&soLuong=" + "1",
+            url: "/cart-api/cart-products?userName=" + "chicken" + "&idProduct=" + "6" + "&soLuong=" + "1",
             type: "GET",
             contentType: "application/json",
         }).done(function (data) {
-            // Nhận được fragment html từ server và chèn vào div có id là products
-            alert("ok")
+            // Xử lý dữ liệu trả về từ server
+            swal({
+                title: "Đã thêm sản phẩm vào giỏ hàng!", // The title of the alert
+                text: "Vào giỏ hàng để xem chi tiết giỏ hàng", // The content of the alert
+                icon: "success", // The icon of the alert (success, error, warning, info)
+                button: "OK", // The text of the button
+                closeOnClickOutside: false, // Prevent closing the alert by clicking outside
+                closeOnEsc: false // Prevent closing the alert by pressing Esc
+            });
+        }).fail(function (xhr, status, error){
+            // Lấy thông báo lỗi từ phản hồi
+            swal({
+                title: "Có lỗi xảy ra!", // The title of the alert
+                text: "Thêm sản phẩm vào giỏ hàng không thành công vui lòng liên hệ 199800 để được hỗ trợ", // The content of the alert
+                icon: "error", // The icon of the alert (success, error, warning, info)
+                button: "OK", // The text of the button
+                closeOnClickOutside: false, // Prevent closing the alert by clicking outside
+                closeOnEsc: false // Prevent closing the alert by pressing Esc
+            });
         });
     }
 
 
 
 
-</script>
 
-<script th:src="@{/user/js/jquery.min.js}"></script>
-<script th:src="@{/user/js/bootstrap.min.js}"></script>
+
+
+
+
+    // Đoạn code dùng get gửi về server. Được nhưng k hợp lí
+
+    // function addProductToCart() {
+    //     // productId, userName, quantity
+    //     // Gửi yêu cầu ajax đến url /getProducts với tham số là productType
+    //
+    //     $.ajax({
+    //         url: "/cart-api/cart-products?userName=" + "chicken" + "&idProduct=" + "5" + "&soLuong=" + "1",
+    //         type: "POST",
+    //         contentType: "application/json",
+    //     }).done(function (data) {
+    //         // Nhận được fragment html từ server và chèn vào div có id là products
+    //         alert("ok")
+    //     });
+    // }
+
+
+
+
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!-- menu js -->
 <script th:src="@{/user/js/menumaker.js}"></script>
 <!-- wow animation -->

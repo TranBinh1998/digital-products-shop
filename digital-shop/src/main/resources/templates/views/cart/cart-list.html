@@ -35,7 +35,7 @@
                             <td class="col-sm-1 col-md-1" style="text-align: center"><input class="form-control" th:value="${sp.soLuong}" value="" type="email">
                             </td>
                             <td class="col-sm-1 col-md-2 text-center"><p  th:text="${#numbers.formatDecimal(sp.donGia, 0, 'COMMA', 0, 'POINT')} + ' đ'" class="price_table"></p></td>
-                            <td class="col-sm-1 col-md-2 text-center"><p  th:text="${#numbers.formatDecimal(sp.donGia, 0, 'COMMA', 0, 'POINT')} + ' đ'" class="price_table"></p></td>
+                            <td class="col-sm-1 col-md-2 text-center"><p  th:text="${#numbers.formatDecimal(sp.totalPrice, 0, 'COMMA', 0, 'POINT')} + ' đ'" class="price_table"></p></td>
                             <td class="col-sm-1 col-md-1"><button type="button" class="bt_main"><i class="fa fa-trash"></i> Remove</button></td>
                         </tr>
 

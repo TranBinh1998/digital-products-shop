@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vn.com.poly.entities.ChiMucGioHang;
 import vn.com.poly.entities.GioHang;
+import vn.com.poly.entities.SanPham;
 import vn.com.poly.repository.ChiMucGioHangRepository;
 import vn.com.poly.service.ChiMucGioHangService;
 
@@ -24,5 +25,10 @@ public class ChiMucGioHangServiceImpl implements ChiMucGioHangService {
     @Override
     public void addChiTietGioHang(ChiMucGioHang chiMucGioHang) {
         chiMucGioHangRepository.save(chiMucGioHang);
+    }
+
+    @Override
+    public ChiMucGioHang findChiMucGioHangByGioHangAndSanPham(GioHang gioHang,SanPham sanPham){
+        return chiMucGioHangRepository.findChiMucGioHangByGioHangAndSanPham(gioHang, sanPham);
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import vn.com.poly.dto.ChiTietGioHangDto;
 import vn.com.poly.entities.ChiMucGioHang;
 import vn.com.poly.entities.GioHang;
+import vn.com.poly.entities.SanPham;
 
 import java.util.List;
 
@@ -27,5 +28,9 @@ public interface ChiMucGioHangRepository extends JpaRepository<ChiMucGioHang, Lo
             " ORDER BY cmgh.ngayThemVaoGioHang asc")
         // Sắp xếp theo ngày thêm vào giỏ hàng tăng dần
     Page<ChiTietGioHangDto> findAllByUserName(Pageable pageable, @Param("userName") String userName);
+
+
+    ChiMucGioHang findChiMucGioHangByGioHangAndSanPham(GioHang gioHang, SanPham sanPham);
+
 
 }
