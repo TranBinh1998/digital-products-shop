@@ -6,5 +6,7 @@ import vn.com.poly.entities.NguoiDung;
 import java.util.List;
 
 public interface GioHangService {
-    List<GioHang> getAllGioHangByIdNguoiDung(NguoiDung nguoiDung);
+    GioHang getAllGioHangByIdNguoiDung(NguoiDung nguoiDung);
+
+    void saveGioHang(GioHang gioHang);
 }

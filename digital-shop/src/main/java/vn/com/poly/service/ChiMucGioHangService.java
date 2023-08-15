@@ -8,4 +8,6 @@ import java.util.List;
 public interface ChiMucGioHangService {
 
     public List<ChiMucGioHang> getAllChiMucGioHangByGioHang(GioHang gioHang);
+
+    void addChiTietGioHang(ChiMucGioHang chiMucGioHang);
 }

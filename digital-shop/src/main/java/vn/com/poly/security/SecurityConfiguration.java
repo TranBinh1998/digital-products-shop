@@ -50,6 +50,8 @@ public class SecurityConfiguration {
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/register/**").permitAll()
                         .requestMatchers("/san-phams/**").permitAll()
+                        .requestMatchers("/cart-api/**").permitAll()
+                        .requestMatchers("/uploads/**").permitAll()
                         .anyRequest().authenticated()
         ).formLogin(
                 form->form.loginPage("/login/showLoginPage")

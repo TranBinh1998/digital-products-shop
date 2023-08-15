@@ -16,7 +16,14 @@ public class GioHangServiceImpl implements GioHangService {
 
 
     @Override
-    public List<GioHang> getAllGioHangByIdNguoiDung(NguoiDung nguoiDung) {
+    public GioHang getAllGioHangByIdNguoiDung(NguoiDung nguoiDung) {
         return gioHangRepository.getGioHangByNguoiDung(nguoiDung);
     }
+
+    @Override
+    public void saveGioHang(GioHang gioHang) {
+        gioHangRepository.save(gioHang);
+    }
+
+
 }

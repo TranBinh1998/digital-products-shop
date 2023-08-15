@@ -9,5 +9,6 @@ import java.util.List;
 
 @Repository
 public interface GioHangRepository extends JpaRepository<GioHang, Long> {
-    public List<GioHang> getGioHangByNguoiDung(NguoiDung nguoiDung);
+    GioHang getGioHangByNguoiDung(NguoiDung nguoiDung);
+
 }

@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import vn.com.poly.dto.RegisterUser;
+import vn.com.poly.entities.GioHang;
 import vn.com.poly.entities.HangSanXuat;
 import vn.com.poly.entities.NguoiDung;
 import vn.com.poly.entities.VaiTro;
 import vn.com.poly.repository.VaiTroRepository;
+import vn.com.poly.service.GioHangService;
 import vn.com.poly.service.HangSanXuatService;
 import vn.com.poly.service.NguoiDungService;
 import vn.com.poly.service.SanPhamService;
@@ -45,6 +47,9 @@ public class RegisterController {
 
     @Autowired
     VaiTroRepository vaiTroRepository;
+
+    @Autowired
+    GioHangService gioHangService;
 
     @Autowired
     HttpServletRequest request;
@@ -119,6 +124,13 @@ public class RegisterController {
         Set<VaiTro> roles = new HashSet<>();
         roles.add(defaultRole);
         user.setVaiTro(roles);
+
+        // Tạo mới 1 giỏ hàng cho người dùng ngay sau khi tạo người dùng
+        GioHang gioHang = new GioHang();
+        gioHang.setNguoiDung(user);
+
+        gioHangService.saveGioHang(gioHang);
+
 
         sendSession();
 

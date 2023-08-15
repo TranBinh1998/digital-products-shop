@@ -20,4 +20,9 @@ public class ChiMucGioHangServiceImpl implements ChiMucGioHangService {
     public List<ChiMucGioHang> getAllChiMucGioHangByGioHang(GioHang gioHang) {
         return chiMucGioHangRepository.getAllByGioHang(gioHang);
     }
+
+    @Override
+    public void addChiTietGioHang(ChiMucGioHang chiMucGioHang) {
+        chiMucGioHangRepository.save(chiMucGioHang);
+    }
 }

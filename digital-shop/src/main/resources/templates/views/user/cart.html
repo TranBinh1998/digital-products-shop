@@ -24,21 +24,54 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="sp : ${listSanPhamByGioHang}">
-                            <td class="col-sm-8 col-md-6">
-                                <div class="media"> <a class="thumbnail pull-left" href="#"> <img class="media-object" width="100px" height="100px"  src="" th:src="@{${'/uploads/' + sp.photo}}" alt="#"></a>
+                        <tr>
+                            <td class="col-sm-8 col-md-6"><div class="media"> <a class="thumbnail pull-left" href="#"> <img class="media-object" src="images/it_service/1.jpg" alt="#"></a>
                                 <div class="media-body">
-                                    <h4 class="media-heading"><a th:text="${sp.tenSanPham}" href="#">Norton Internet Security</a></h4>
+                                    <h4 class="media-heading"><a href="#">Norton Internet Security</a></h4>
                                     <span>Status: </span><span class="text-success">In Stock</span> </div>
-                            </div>
+                            </div></td>
+                            <td class="col-sm-1 col-md-1" style="text-align: center"><input class="form-control" value="3" type="email">
                             </td>
-                            <td class="col-sm-1 col-md-1" style="text-align: center"><input class="form-control" th:value="${sp.soLuong}" value="" type="email">
-                            </td>
-                            <td class="col-sm-1 col-md-2 text-center"><p  th:text="${#numbers.formatDecimal(sp.donGia, 0, 'COMMA', 0, 'POINT')} + ' đ'" class="price_table"></p></td>
-                            <td class="col-sm-1 col-md-2 text-center"><p  th:text="${#numbers.formatDecimal(sp.donGia, 0, 'COMMA', 0, 'POINT')} + ' đ'" class="price_table"></p></td>
+                            <td class="col-sm-1 col-md-1 text-center"><p class="price_table">$25.00</p></td>
+                            <td class="col-sm-1 col-md-1 text-center"><p class="price_table">$25.00</p></td>
                             <td class="col-sm-1 col-md-1"><button type="button" class="bt_main"><i class="fa fa-trash"></i> Remove</button></td>
                         </tr>
-
+                        <tr>
+                            <td class="col-md-6"><div class="media"> <a class="thumbnail pull-left" href="#"> <img class="media-object" src="images/it_service/2.jpg" alt="#"></a>
+                                <div class="media-body">
+                                    <h4 class="media-heading"><a href="#">Kaspersky Internet Security</a></h4>
+                                    <span>Status: </span><span class="text-danger">Out Stock</span> </div>
+                            </div></td>
+                            <td class="col-md-1" style="text-align: center"><input class="form-control" value="2" type="email">
+                            </td>
+                            <td class="col-sm-1 col-md-1 text-center"><p class="price_table">$25.00</p></td>
+                            <td class="col-sm-1 col-md-1 text-center"><p class="price_table">$25.00</p></td>
+                            <td class="col-md-1"><button type="button" class="bt_main"><i class="fa fa-trash"></i> Remove</button></td>
+                        </tr>
+                        <tr>
+                            <td class="col-sm-8 col-md-6"><div class="media"> <a class="thumbnail pull-left" href="#"> <img class="media-object" src="images/it_service/3.jpg" alt="#"></a>
+                                <div class="media-body">
+                                    <h4 class="media-heading"><a href="#">Mcafee Livesafe Antivirus</a></h4>
+                                    <span>Status: </span><span class="text-success">In Stock</span> </div>
+                            </div></td>
+                            <td class="col-sm-1 col-md-1" style="text-align: center"><input class="form-control" value="3" type="email">
+                            </td>
+                            <td class="col-sm-1 col-md-1 text-center"><p class="price_table">$25.00</p></td>
+                            <td class="col-sm-1 col-md-1 text-center"><p class="price_table">$25.00</p></td>
+                            <td class="col-sm-1 col-md-1"><button type="button" class="bt_main"><i class="fa fa-trash"></i> Remove</button></td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-6"><div class="media"> <a class="thumbnail pull-left" href="#"> <img class="media-object" src="images/it_service/4.jpg" alt="#"></a>
+                                <div class="media-body">
+                                    <h4 class="media-heading"><a href="#">Norton Internet Security</a></h4>
+                                    <span>Status: </span><span class="text-danger">Out Stock</span> </div>
+                            </div></td>
+                            <td class="col-md-1" style="text-align: center"><input class="form-control" value="2" type="email">
+                            </td>
+                            <td class="col-sm-1 col-md-1 text-center"><p class="price_table">$25.00</p></td>
+                            <td class="col-sm-1 col-md-1 text-center"><p class="price_table">$25.00</p></td>
+                            <td class="col-md-1"><button type="button" class="bt_main"><i class="fa fa-trash"></i> Remove</button></td>
+                        </tr>
                         </tbody>
                     </table>
                     <table class="table">
@@ -74,7 +107,6 @@
                             <td class="text-right"><h4>$55.00</h4></td>
                         </tr>
                         <tr>
-<!--                          Dùng js để tính tiền   -->
                             <td><button type="button" class="button">Continue Shopping</button></td>
                             <td><button class="button">Checkout</button></td>
                         </tr>
@@ -111,7 +143,3 @@
 
 </body>
 </html>
-
-<script>
-    console.log("Hello")
-</script>

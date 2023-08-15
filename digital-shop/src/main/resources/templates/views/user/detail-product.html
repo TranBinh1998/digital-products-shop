@@ -30,13 +30,13 @@
                                 class="new-price"></span></div>
                         <div class="detail-contant">
                             <p th:text="${sanPham.thongTinChung}"></p>
-                            <form class="cart" method="post" action="it_cart.html">
+                            <div class="cart" >
                                 <div class="quantity">
                                     <input step="1" min="1" max="5" name="quantity" value="1" title="Qty"
                                            class="input-text qty text" size="4" type="number">
                                 </div>
-                                <button type="submit" class="btn sqaure_bt">Add to cart</button>
-                            </form>
+                                <button type="button"  onclick="addProductToCart()"  class="btn sqaure_bt">Add to cart</button>
+                            </div>
                         </div>
                         <div class="share-post"><a href="#" class="share-text">Share</a>
                             <ul class="social_icons">
@@ -365,7 +365,26 @@
 <!-- End sesstion -->
 <!-- footer -->
 <footer th:replace="~{views/common/footer :: commonFooter}"></footer>
+<script>
+    console.log("Viết code add sản phẩm giỏ hàng ở đây");
 
+    function addProductToCart() {
+        // productId, userName, quantity
+        // Gửi yêu cầu ajax đến url /getProducts với tham số là productType
+        $.ajax({
+            url: "/cart-api/cart-products?userName=" + "chicken" + "&idProduct=" + "5" + "&soLuong=" + "1",
+            type: "GET",
+            contentType: "application/json",
+        }).done(function (data) {
+            // Nhận được fragment html từ server và chèn vào div có id là products
+            alert("ok")
+        });
+    }
+
+
+
+
+</script>
 
 <script th:src="@{/user/js/jquery.min.js}"></script>
 <script th:src="@{/user/js/bootstrap.min.js}"></script>

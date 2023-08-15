@@ -6,12 +6,16 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import org.springframework.web.servlet.ModelAndView;
 import vn.com.poly.dto.ChiTietGioHangDto;
+import vn.com.poly.entities.GioHang;
+import vn.com.poly.entities.NguoiDung;
 import vn.com.poly.repository.ChiMucGioHangRepository;
 import vn.com.poly.repository.NguoiDungRepository;
 import vn.com.poly.service.ChiMucGioHangService;
@@ -55,7 +59,9 @@ public class GioHangController {
 
 
     @GetMapping("/list-product")
-    public String getAllProductByCart(@SessionAttribute("userName") String userName, @RequestParam(defaultValue = "0") String pageIndex) {
+    public String getAllProductByCart(@SessionAttribute("userName") String userName,
+                                      @RequestParam(defaultValue = "0") String pageIndex,
+                                      Model model) {
         // Tạo ra 1 đối tượng phân trang .
 
         Pageable pageable;
@@ -73,12 +79,30 @@ public class GioHangController {
 
         Page<ChiTietGioHangDto> chiTietGioHangDtoList = chiMucGioHangRepository.findAllByUserName(pageable,userName);
 
-        chiTietGioHangDtoList.forEach(chiTietGioHangDto -> System.out.println(chiTietGioHangDto.toString()));
+        // Sang view làm giỏ hàng
+        chiTietGioHangDtoList.forEach(chiTietGioHangDto -> {
+            System.out.println(chiTietGioHangDto.toString());
+        });
 
+        model.addAttribute("listSanPhamByGioHang", chiTietGioHangDtoList);
+        // Hiển thị giỏ hàng
 
 
         return "views/cart/cart-list";
     }
+
+
+
+
+
+
+    // xóa 1 sản phẩm ra khỏi giỏ hàng
+
+    // Chỉnh sửa giỏ hàng
+
+
+
+
 
 
 

@@ -18,7 +18,7 @@ public interface ChiMucGioHangRepository extends JpaRepository<ChiMucGioHang, Lo
     List<ChiMucGioHang> getAllByGioHang(GioHang gioHang);
     // Lây danh sách sản phẩm theo mã người dùng
 
-    @Query("SELECT new vn.com.poly.dto.ChiTietGioHangDto (s.tenSanPham , cmgh.soLuong, s.donGia)" + // Chọn các cột cần thiết và tạo một đối tượng dto mới từ chúng
+    @Query("SELECT new vn.com.poly.dto.ChiTietGioHangDto (s.tenSanPham , cmgh.soLuong, s.donGia, s.photo, s.donGia*cmgh.soLuong)" + // Chọn các cột cần thiết và tạo một đối tượng dto mới từ chúng
             " FROM NguoiDung nd  " + // Bắt đầu từ bảng NguoiDung
             " LEFT JOIN GioHang gh ON nd.id = gh.nguoiDung.id " + // Nối trái với bảng GioHang theo quan hệ nguoiDung
             " left JOIN ChiMucGioHang cmgh on gh.id = cmgh.gioHang.id " + // Nối trái với bảng ChiMucGioHang theo quan hệ gioHang
