@@ -31,4 +31,16 @@ public class ChiMucGioHangServiceImpl implements ChiMucGioHangService {
     public ChiMucGioHang findChiMucGioHangByGioHangAndSanPham(GioHang gioHang,SanPham sanPham){
         return chiMucGioHangRepository.findChiMucGioHangByGioHangAndSanPham(gioHang, sanPham);
     }
+
+    @Override
+    public void deleteChiMucGioHang(ChiMucGioHang chiMucGioHang) {
+        chiMucGioHangRepository.delete(chiMucGioHang);
+    }
+
+    @Override
+    public ChiMucGioHang findChiMucGioHangBySanPham(SanPham sanPham) {
+        return chiMucGioHangRepository.findChiMucGioHangBySanPham(sanPham);
+    }
+
+
 }

@@ -1,0 +1,124 @@
+<!DOCTYPE html >
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="row"  th:fragment="productsAdminList(sanPhams)">
+    <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+        <div class="row">
+            <div class="col-sm-12">
+                <table id="example1" class="table table-bordered dataTable dtr-inline"
+                       aria-describedby="example1_info">
+                    <thead>
+                    <tr>
+                        <th style="width: 5%;">STT</th>
+                        <th>Photo</th>
+                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                            aria-label="Browser: activate to sort column ascending">Tên sản phẩm
+                        </th>
+                        <th class="sorting sorting_asc" tabindex="0" aria-controls="example1" rowspan="1"
+                            colspan="1" aria-sort="ascending"
+                            aria-label="Rendering engine: activate to sort column descending">Hãng Sản Xuất
+                        </th>
+                        <th>Loại Hàng</th>
+                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                            aria-label="Platform(s): activate to sort column ascending">Đơn giá
+                        </th>
+                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                            aria-label="Engine version: activate to sort column ascending">Số lượng tồn kho
+                        </th>
+                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                            aria-label="CSS grade: activate to sort column ascending">Thông tin chung
+                        </th>
+                        <th>Ngày nhập hàng</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="odd" th:each="sanPham,iter  : ${sanPhams}">
+                        <td th:text="${iter.count}"></td>
+                        <td>
+                            <img style="width: 80px; height: 80px"
+                                 th:src="@{${'/uploads/' + sanPham.photo}}">
+                        </td>
+                        <td th:text="${sanPham.tenSanPham}"></td>
+                        <td class="dtr-control sorting_1" th:text="${sanPham.hangSanXuat.tenHangSanXuat}"
+                            tabindex="0"></td>
+                        <td th:text="${sanPham.danhMuc.tenDanhMuc}"></td>
+                        <td th:text="${#numbers.formatDecimal(sanPham.donGia, 0, 'COMMA', 0, 'POINT')}"></td>
+                        <td th:text="${sanPham.donViKho}"></td>
+                        <td th:text="${sanPham.thongTinChung}"></td>
+                        <td th:text="${#dates.format (sanPham.namRaMat, 'dd/MM/yyyy')}"></td>
+                        <td>
+                            <button type="button" th:value="${sanPham.id}" class="btn btn-delete btn-block bg-gradient-info btn-sm">Xóa</button>
+                            <a type="button" th:href="@{/admin/update-product(id=${sanPham.id})}" class="btn btn-block bg-gradient-info btn-sm">Cập Nhật</a>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <th rowspan="1" colspan="1">Rendering engine</th>
+                        <th rowspan="1" colspan="1">Browser</th>
+                        <th rowspan="1" colspan="1">Platform(s)</th>
+                        <th rowspan="1" colspan="1">Engine version</th>
+                        <th rowspan="1" colspan="1">CSS grade</th>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-5">
+                <div class="dataTables_info" id="example1_info" role="status" aria-live="polite">Showing 1
+                    to 10 of
+                    57 entries
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-7">
+                <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
+                    <ul class="pagination">
+                        <li  class="paginate_button page-item previous disabled" id="example1_previous"><a
+                                href="#"
+                                aria-controls="example1"
+                                data-dt-idx="0"
+                                tabindex="0"
+                                class="page-link">Previous</a>
+                        </li>
+                        <li class="paginate_button page-item active"><a href="#" aria-controls="example1"
+                                                                        data-dt-idx="1" tabindex="0"
+                                                                        class="page-link">1</a></li>
+                        <li class="paginate_button page-item next" id="example1_next"><a href="#"
+                                                                                         aria-controls="example1"
+                                                                                         data-dt-idx="7"
+                                                                                         tabindex="0"
+                                                                                         class="page-link">Next</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div style="width: 800px;  margin: 0 auto;" class="row center tm-mb-90">
+            <span id="alert-pagination"></span>
+            <div id="pagination" class="col-12 d-flex justify-content-between align-items-center tm-paging-col">
+                <!--         Khi click bào previous thì page hiện tại -1 gửi 1 request về server nếu page hiện tại = 1 thì nút nó sẽ bị  disabled   -->
+                <span  id="previous-btn" th:class="${page == 0 ? 'btn btn-primary mb-2 disabled' : 'btn btn-primary mb-2'}"  class="">Previous</span>
+                <div class="tm-paging d-flex">
+                    <ul >
+                        <li th:each="i : ${#numbers.sequence(1 , sanPhams.getTotalPages())}" class="d-inline-block" id="li-page-index">
+                            <span  href="" class="m-2 btn-lg btn-outline-primary pageIndex" th:if="${page == i-1}" th:classappend="active"  th:text="${i}"></span>
+                            <span  href="" class="m-2 btn-lg btn-outline-primary pageIndex" th:unless="${page == i-1}"  th:text="${i}"></span>
+                        </li>
+                    </ul>
+                    <!--               Bài toán là lấy giá trị của  getTotalPages ép kiểu  nếu nó = 0 thì -->
+                    <span hidden id="getTotalPages" th:text="${sanPhams.getTotalPages()}"></span>
+                </div>
+                <span  id="next-page-btn"  th:class="${page == sanPhams.getTotalPages()-1 ? 'btn btn-primary mb-2 disabled' : 'btn btn-primary mb-2'}"  class="">Next Page</span>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

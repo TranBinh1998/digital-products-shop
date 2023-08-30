@@ -18,6 +18,7 @@ import vn.com.poly.entities.SanPham;
 import vn.com.poly.service.DanhMucService;
 import vn.com.poly.service.HangSanXuatService;
 import vn.com.poly.service.SanPhamService;
+import vn.com.poly.service.SessionService;
 
 import java.security.PublicKey;
 import java.util.List;
@@ -38,68 +39,33 @@ public class SanPhamConTroller {
     @Autowired
     HttpServletRequest request;
 
+    @Autowired
+    SessionService sendSessionService;
 
-    // Lấy ra id của hãng sản xuất
     @GetMapping("/brands")
     public String getProductByThuongHieu(@RequestParam("id") String id, Model model) {
-        System.out.println("id danh mục = " + id);
-        List<DanhMuc> danhMucList = danhMucService.getAllDanhMuc();
-//        List<DanhMuc> danhMucList = danhMucService.findByHangSanXuat(Long.parseLong(id));
-        //   Bài toán tương Lấy danh sách danh mục theo thương hiệu thông qua bảng sản phẩm
-        //   sau đó
-
-        sendSession();
-
-        List<HangSanXuat> hangSanXuatList = hangSanXuatService.getAllHangSanXuatList();
-        System.out.println("Size hang " + hangSanXuatList.size());
-        model.addAttribute("hangSanXuats", hangSanXuatList);
-        model.addAttribute("danhMucs", danhMucList);
+        hangSanXuatService.manufacturerToView(model);
+        danhMucService.listCategoryToView(model);
+        sendSessionService.sendSession(request);
         model.addAttribute("idHangSanXuat", id);
         return "views/user/brand-san-phams";
     }
 
     @GetMapping("/all")
     public String getAllSanPham(Model model) {
-        List<DanhMuc> danhMucList = danhMucService.getAllDanhMuc();
-
-        List<HangSanXuat> hangSanXuatList = hangSanXuatService.getAllHangSanXuatList();
-        System.out.println("Size hang " + hangSanXuatList.size());
-
-        model.addAttribute("hangSanXuats", hangSanXuatList);
-
-        model.addAttribute("danhMucs", danhMucList);
-
-        sendSession();
-
+        danhMucService.listCategoryToView(model);
+        hangSanXuatService.manufacturerToView(model);
+        sendSessionService.sendSession(request);
         return "views/user/listSanPham";
     }
-
-    // Detail sản phẩm
-    // Lấy id sản phẩm từ link trong mỗi sản phẩm
-
 
     @GetMapping("/detail-product")
     public String detailSanPham(@RequestParam("id") String id, Model model) {
         SanPham sanPham = sanPhamService.findSanPhamById(Long.parseLong(id));
-
         model.addAttribute("sanPham", sanPham);
-
-        sendSession();
-        List<HangSanXuat> hangSanXuatList = hangSanXuatService.getAllHangSanXuatList();
-        model.addAttribute("hangSanXuats", hangSanXuatList);
-
+        sendSessionService.sendSession(request);
+        hangSanXuatService.manufacturerToView(model);
         return "views/user/detail-product";
-    }
-
-    private void sendSession() {
-        StringBuffer previousUrl = request.getRequestURL();
-        String query = request.getQueryString();
-
-        String fullUrl = previousUrl.append("?").append(query).toString();
-
-        HttpSession session = request.getSession();
-
-        session.setAttribute("previousUrl", fullUrl);
     }
 
 

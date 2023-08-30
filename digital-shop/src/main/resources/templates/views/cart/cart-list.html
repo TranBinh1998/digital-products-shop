@@ -20,23 +20,51 @@
                             <th>Quantity</th>
                             <th class="text-center">Price</th>
                             <th class="text-center">Total</th>
-                            <th> </th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="sp : ${listSanPhamByGioHang}">
+
                             <td class="col-sm-8 col-md-6">
-                                <div class="media"> <a class="thumbnail pull-left" href="#"> <img class="media-object" width="100px" height="100px"  src="" th:src="@{${'/uploads/' + sp.photo}}" alt="#"></a>
-                                <div class="media-body">
-                                    <h4 class="media-heading"><a th:text="${sp.tenSanPham}" href="#">Norton Internet Security</a></h4>
-                                    <span>Status: </span><span class="text-success">In Stock</span> </div>
-                            </div>
+                                <div class="media"><a class="thumbnail pull-left" href="#"> <img class="media-object"
+                                                                                                 width="100px"
+                                                                                                 height="100px" src=""
+                                                                                                 th:src="@{${'/uploads/' + sp.photo}}"
+                                                                                                 alt="#"></a>
+                                    <div class="media-body">
+                                        <h4 class="media-heading"><a th:text="${sp.tenSanPham}" href="#">Norton Internet
+                                            Security</a></h4>
+                                        <span>Status: </span><span class="text-success">In Stock</span></div>
+                                    <span hidden id="idProduct" th:text="${sp.idSanPham}"></span>
+                                </div>
                             </td>
-                            <td class="col-sm-1 col-md-1" style="text-align: center"><input class="form-control" th:value="${sp.soLuong}" value="" type="email">
+                            <td class="col-sm-3 col-md-2" style="vertical-align: revert !important;">
+                                <div class="input-group">
+                                    <div class="hidden-xs input-group-prepend">
+                                        <button th:value="${sp.idSanPham}" class="minus-button btn-sm btn-light border">-</button>
+                                    </div>
+<!--                                    onchange="setTimeout(addNewQuantityProduct(), 1000) "-->
+                                    <input  style="max-width: 50px" th:id="quantity-input+${sp.idSanPham}" onchange="addNewQuantityProduct(this.value)" readonly class="quantity-input form-control"
+                                           th:value="${sp.soLuong}" value="0"
+                                           type="number">
+                                    <div class="hidden-xs  input-group-append">
+                                        <button  th:value="${sp.idSanPham}" class="plus-button btn-sm btn-light border">+</button>
+                                    </div>
+                                </div>
+
                             </td>
-                            <td class="col-sm-1 col-md-2 text-center"><p  th:text="${#numbers.formatDecimal(sp.donGia, 0, 'COMMA', 0, 'POINT')} + ' đ'" class="price_table"></p></td>
-                            <td class="col-sm-1 col-md-2 text-center"><p  th:text="${#numbers.formatDecimal(sp.totalPrice, 0, 'COMMA', 0, 'POINT')} + ' đ'" class="price_table"></p></td>
-                            <td class="col-sm-1 col-md-1"><button type="button" class="bt_main"><i class="fa fa-trash"></i> Remove</button></td>
+                            <td class="col-sm-1 col-md-2 text-center"><p
+                                    th:text="${#numbers.formatDecimal(sp.donGia, 0, 'COMMA', 0, 'POINT')} + ' đ'"
+                                    class="price_table"></p></td>
+                            <td class="col-sm-1 col-md-2 text-center"><p
+                                    th:text="${#numbers.formatDecimal(sp.totalPrice, 0, 'COMMA', 0, 'POINT')} + ' đ'"
+                                    class="price_table"></p></td>
+                            <td class="col-sm-1 col-md-1">
+                                <button th:id="delete-button+${sp.idSanPham}" th:value="${sp.idSanPham}" type="button" class="delete-product-cart bt_main"><i class="fa fa-trash"></i>
+                                    Remove
+                                </button>
+                            </td>
                         </tr>
 
                         </tbody>
@@ -44,10 +72,12 @@
                     <table class="table">
                         <tbody>
                         <tr class="cart-form">
-                            <td class="actions"><div class="coupon">
-                                <input name="coupon_code" class="input-text" id="coupon_code" placeholder="Coupon code" type="text">
-                                <input class="button" name="apply_coupon" value="Apply coupon" type="submit">
-                            </div>
+                            <td class="actions">
+                                <div class="coupon">
+                                    <input name="coupon_code" class="input-text" id="coupon_code"
+                                           placeholder="Coupon code" type="text">
+                                    <input class="button" name="apply_coupon" value="Apply coupon" type="submit">
+                                </div>
                                 <input class="button" name="update_cart" value="Update cart" disabled="" type="submit">
                             </td>
                         </tr>
@@ -74,9 +104,13 @@
                             <td class="text-right"><h4>$55.00</h4></td>
                         </tr>
                         <tr>
-<!--                          Dùng js để tính tiền   -->
-                            <td><button type="button" class="button">Continue Shopping</button></td>
-                            <td><button class="button">Checkout</button></td>
+                            <!--                          Dùng js để tính tiền   -->
+                            <td>
+                                <button type="button" class="button">Continue Shopping</button>
+                            </td>
+                            <td>
+                                <button class="button">Checkout</button>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
@@ -84,7 +118,8 @@
             </div>
         </div>
     </div>
-</div><footer th:replace="~{views/common/footer :: commonFooter}"></footer>
+</div>
+<footer th:replace="~{views/common/footer :: commonFooter}"></footer>
 
 
 <script th:src="@{/user/js/jquery.min.js}"></script>
@@ -113,5 +148,77 @@
 </html>
 
 <script>
-    console.log("Hello")
+    let userName = document.getElementById("userName").textContent;
+
+    $(document).ready(function () {
+        function deleteProduct(idProduct) {
+            $.ajax({
+                url: "/cart-api/del-cart-products/" + idProduct + "/" + userName,
+                type: "GET", // bắt buộc dùng get vì dùng post server k nhận được url
+                data: {
+                    id: idProduct,
+                    name: userName
+                },
+                success: function (result) {
+                    console.log(result);
+                    location.reload(true);
+                },
+                error: function (xhr, status, error) {
+                    console.log(error);
+                }
+            });
+        }
+        $(".delete-product-cart ").click(function (){
+            var idDeleteButton = this.value;
+            deleteProduct(idDeleteButton);
+        });
+    });
+    var quantityInput = document.querySelectorAll(".quantity-input");
+    console.log("userName "+userName);
+    function addNewQuantityProduct(idProduct, userName, quantityInput) {
+        $.ajax({
+            url: "/cart-api/cart-products?userName=" + userName + "&idProduct=" + idProduct + "&soLuong=" + quantityInput,
+            type: "GET",
+            contentType: "application/json",
+        }).done(function (data) {
+            let quantityByCart = data.soLuong;
+        }).fail(function (xhr, status, error){
+            alert("Lỗi không xác định")
+        });
+    }
+    function increaseQuantity (idProduct) {
+        var quantityInput = document.getElementById("quantity-input"+idProduct);
+        var quantity = parseInt(quantityInput.value);
+        console.log("Có gọi hàm 2")
+        if (quantity < 100) {
+            quantity++;
+            quantityInput.value = quantity;
+            addNewQuantityProduct(idProduct,userName,1);
+        }
+    }
+    function decreaseQuantity(idProduct) {
+        var quantityInput = document.getElementById("quantity-input"+idProduct);
+        var quantity = parseInt(quantityInput.value);
+
+        if (quantity  > 1) {
+            quantity--;
+            quantityInput.value = quantity;
+            addNewQuantityProduct(idProduct,userName,-1)
+        }
+
+    }
+    var plusButtons  = document.getElementsByClassName("plus-button");
+    var minusButtons = document.getElementsByClassName("minus-button");
+    for (let i = 0; i < quantityInput.length ; i++) {
+        minusButtons[i].onclick = function () {
+            decreaseQuantity(this.value);
+        };
+        plusButtons[i].onclick = function () {
+            increaseQuantity (this.value);
+        };
+    }
+
+</script>
+<script>
+
 </script>

@@ -34,4 +34,27 @@ public interface SanPhamRepository extends JpaRepository<SanPham, Long> {
                                                          @Param("hangSanXuatId") Long maHangSanXuat);
 
 
+ @Query("SELECT s" +
+         " FROM SanPham s" + " " +
+         " join FETCH s.hangSanXuat hsx" +
+         " join FETCH s.danhMuc dm" +
+         " where hsx.id in :hangSanXuatId and dm.id = :danhMucId")
+ Page<SanPham> findSanPhamByListHangSanXuatIdAndDanhMucId(Pageable pageable,
+                                                      @Param("danhMucId") Long maDanhMuc,
+                                                      @Param("hangSanXuatId") List<Long> maHangSanXuat);
+
+
+ @Query("SELECT s" +
+         " FROM SanPham s" + " " +
+         " join FETCH s.hangSanXuat hsx" +
+         " join FETCH s.danhMuc dm" +
+         " where dm.id = :danhMucId")
+ Page<SanPham> findSanPhamByAllHangSanXuatIdAndDanhMucId(Pageable pageable,
+                                                          @Param("danhMucId") Long maDanhMuc);
+
+
+
+
+
+
 }

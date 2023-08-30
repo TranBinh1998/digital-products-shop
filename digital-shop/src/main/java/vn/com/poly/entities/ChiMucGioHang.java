@@ -2,6 +2,7 @@ package vn.com.poly.entities;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +10,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -20,7 +23,7 @@ public class ChiMucGioHang {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
-	@ManyToOne
+	@ManyToOne (cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "ma_san_pham")
 	private SanPham sanPham;
 
@@ -70,7 +73,12 @@ public class ChiMucGioHang {
 		this.gioHang = gioHang;
 	}
 
-	
-	
 
+	public Date getNgayThemVaoGioHang() {
+		return ngayThemVaoGioHang;
+	}
+
+	public void setNgayThemVaoGioHang(Date ngayThemVaoGioHang) {
+		this.ngayThemVaoGioHang = ngayThemVaoGioHang;
+	}
 }

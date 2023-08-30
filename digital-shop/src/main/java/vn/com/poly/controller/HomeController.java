@@ -59,7 +59,6 @@ public class HomeController {
         model.addAttribute("sanPhamBanChay", sanPhamBanChay);
         model.addAttribute("sanPhams", sanPhams);
 
-        // Pc
         Page<SanPham> pcList = sanPhamService.findSanPhamByDanhMuc(pageableSanPhamByNamRaMat, pcId);
         Page<SanPham> pcListBanChay = sanPhamService.findSanPhamByDanhMuc(pageableSanPhamByBanChay, pcId);
         model.addAttribute("pcList", pcList);
@@ -89,7 +88,6 @@ public class HomeController {
         model.addAttribute("phuKienCacLoai", phuKienCacLoaiList);
 
         List<HangSanXuat> hangSanXuatList = hangSanXuatService.getAllHangSanXuatList();
-        System.out.println("Size hang " + hangSanXuatList.size());
 
 
         model.addAttribute("hangSanXuats", hangSanXuatList);

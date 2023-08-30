@@ -35,7 +35,7 @@
                                     <div style="align-items:  center;" class="d-flex flex-column">
                                         <a style="font-size: 32px" class="fa fa-shopping-cart d-block" href=""
                                            th:href="@{/cart/list-product}"
-                                           target="_blank">
+                                          >
                                         </a>
                                         <a class="" th:href="@{/cart/list-product}">Giỏ Hàng</a>
 
@@ -139,19 +139,12 @@
                                     </ul>
                                 </li>
 
-
                                 <li sec:authorize="isAuthenticated()">
                                     <a id="user-name" sec:authentication="principal.username" href="#"></a>
                                 </li>
+                                <h1 hidden="" id="userName" th:text="${session.userName}"></h1>
                             </ul>
                         </div>
-                        <!--                        <div class="search_icon">-->
-                        <!--                            <ul>-->
-                        <!--                                <li><a href="#" data-toggle="modal" data-target="#search_bar"><i class="fa fa-search"-->
-                        <!--                                                                                                 aria-hidden="true"></i></a>-->
-                        <!--                                </li>-->
-                        <!--                            </ul>-->
-                        <!--                        </div>-->
                     </div>
                     <!-- menu end -->
                 </div>

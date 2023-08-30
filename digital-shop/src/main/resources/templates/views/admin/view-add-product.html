@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{views/common/head-admin :: commonHeadAdmin}"></head>
+
+
+<body id="default_theme" class="it_service">
+
+<header th:replace="~{views/common/header-admin :: commonHeaderAdmin}"></header>
+
+<div class="container">
+
+    <div class="row">
+
+
+        <div class="col-md-12">
+            <form action="" th:action="@{/admin/save-product}" th:object="${sanPham}" method="post" enctype="multipart/form-data">
+            <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">THÊM SẢN PHẨM</h3>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="form-group">
+                            <label>Danh Mục Sản Phẩm </label>
+                            <select  th:field="*{danhMuc}"  id="selectProduct"  class="mr-5 mb-0 form-select-lg form-control-lg">
+                                <div th:each="danhMuc : ${danhMucs}">
+                                    <option th:value="${danhMuc.id}" value="" th:text="${danhMuc.tenDanhMuc}"></option>
+                                </div>
+                            </select>
+                            <label>Hãng Sản Xuất</label>
+                            <select  th:field="*{hangSanXuat}"  id="selectProduct2" class="mr-5 mb-0 form-select-lg form-control-lg">
+                                <div th:each="hsx : ${hangSanXuats}">
+                                    <option th:value="${hsx.id}" value="" th:text="${hsx.tenHangSanXuat}"></option>
+                                </div>
+                            </select>
+                            <input type="text" hidden th:field="*{id}">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Tên sản phẩm</label>
+                            <input type="text" th:field="*{tenSanPham}" class="form-control" id="" placeholder="Nhập tên sản phẩm" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Đơn giá</label>
+                            <input type="number" th:field="*{donGia}" class="form-control" id="exampleInputPassword1"
+                                   placeholder="Đơn giá">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Đơn vị Kho</label>
+                            <input type="number" th:field="*{donViKho}" class="form-control" id="exampleInputPassword1"
+                                   placeholder="Đơn vị trong kho">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Thông tin bảo hành</label>
+                            <input type="text" th:field="*{thongTinBaoHanh}" class="form-control" id="exampleInputPassword1"
+                                   placeholder="Thông tin bảo hành">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Thông tin chung</label>
+                            <input type="text" th:field="*{thongTinChung}" class="form-control" id="exampleInputPassword1"
+                                   placeholder="Thông tin chung">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Màn Hình</label>
+                            <input type="text" th:field="*{manHinh}" class="form-control" id="exampleInputPassword1"
+                                   placeholder="Màn Hình">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Hệ điều hành</label>
+                            <input type="text" th:field="*{heDieuHanh}" class="form-control" id="exampleInputPassword1"
+                                   placeholder="Hệ Điều Hành">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">CPU</label>
+                            <input type="text" th:field="*{cpu}" class="form-control" id="exampleInputPassword1"
+                                   placeholder="CPU">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">RAM</label>
+                            <input type="text" th:field="*{ram}" class="form-control"
+                                   placeholder="Ram">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Thiết Kế</label>
+                            <input type="text" th:field="*{thietKe}" class="form-control"
+                                   placeholder="Đơn giá">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Dung Lượng Pin</label>
+                            <input type="text" th:field="*{dungLuongPin}" class="form-control"
+                                   placeholder="Dung Lượng pin">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputFile">File input</label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" name="image" id="exampleInputFile">
+                                <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                            </div>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">Upload</span>
+                                </div>
+                            </div>
+                        <div>
+                            <img width="300px" height="300px" th:src="@{${'/uploads/' + sanPham.photo}}">
+                        </div>
+
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                        </div>
+                    </div>
+            </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+
+            </form>
+        </div>
+        <!--/.col (left) -->
+        <!-- right column -->
+
+    </div>
+
+    <!-- /.card-body -->
+</div>
+
+
+<!-- End Model search bar -->
+<!-- footer -->
+<footer th:replace="~{views/common/footer-admin :: footeradmin}"></footer>
+
+<!-- jQuery -->
+<!--  th:src="@{/admin/}"  -->
+
+<script th:src="@{/admin-view/plugins/jquery/jquery.min.js}" src="plugins/jquery/jquery.min.js"></script>
+
+<script th:src="@{/admin-view/plugins/jquery-ui/jquery-ui.min.js}"
+        src="plugins/jquery-ui/jquery-ui.min.js"></script>
+
+<script>
+    $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/admin-view/plugins/bootstrap/js/bootstrap.bundle.min.js}"
+        src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- ChartJS -->
+<script th:src="@{/admin-view/plugins/chart.js/Chart.min.js}" src="plugins/chart.js/Chart.min.js"></script>
+<!-- Sparkline -->
+<script th:src="@{/admin-view/plugins/sparklines/sparkline.js}" src="plugins/sparklines/sparkline.js"></script>
+<!-- JQVMap -->
+<script th:src="@{/admin-view/plugins/jqvmap/jquery.vmap.min.js}" src="plugins/jqvmap/jquery.vmap.min.js"></script>
+<script th:src="@{/admin-view/plugins/jqvmap/maps/jquery.vmap.usa.js}"
+        src="plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+<!-- jQuery Knob Chart -->
+<script th:src="@{/admin-view/plugins/jquery-knob/jquery.knob.min.js}"
+        src="plugins/jquery-knob/jquery.knob.min.js"></script>
+<!-- daterangepicker -->
+<script th:src="@{/admin-view/plugins/moment/moment.min.js}" src="plugins/moment/moment.min.js"></script>
+<script th:src="@{/admin-view/plugins/daterangepicker/daterangepicker.js}"
+        src="plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script th:src="@{/admin-view/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js}"
+        src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Summernote -->
+<script th:src="@{/admin-view/plugins/summernote/summernote-bs4.min.js}"
+        src="plugins/summernote/summernote-bs4.min.js"></script>
+<!-- overlayScrollbars -->
+<script th:src="@{/admin-view/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"
+        src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/admin-view/dist/js/adminlte.js}" src="dist/js/adminlte.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script th:src="@{/admin-view/dist/js/demo.js}" src="dist/js/demo.js"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script th:src="@{/admin-view/dist/js/pages/dashboard.js}" src="dist/js/pages/dashboard.js"></script>

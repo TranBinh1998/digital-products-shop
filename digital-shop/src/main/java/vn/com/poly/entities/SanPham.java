@@ -8,17 +8,19 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Transient;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
 public class SanPham {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String tenSanPham;
@@ -43,6 +45,7 @@ public class SanPham {
     @Transient
     @JsonIgnore
     private MultipartFile hinhAnh;
+
 
     @ManyToOne
     @JoinColumn(name = "ma_danh_muc")
@@ -204,4 +207,27 @@ public class SanPham {
         this.hinhAnh = hinhAnh;
     }
 
+    @Override
+    public String toString() {
+        return "SanPham{" +
+                "id=" + id +
+                ", tenSanPham='" + tenSanPham + '\'' +
+                ", donGia=" + donGia +
+                ", donViKho=" + donViKho +
+                ", donViBan=" + donViBan +
+                ", thongTinBaoHanh='" + thongTinBaoHanh + '\'' +
+                ", thongTinChung='" + thongTinChung + '\'' +
+                ", manHinh='" + manHinh + '\'' +
+                ", heDieuHanh='" + heDieuHanh + '\'' +
+                ", cpu='" + cpu + '\'' +
+                ", ram='" + ram + '\'' +
+                ", thietKe='" + thietKe + '\'' +
+                ", dungLuongPin='" + dungLuongPin + '\'' +
+                ", namRaMat=" + namRaMat +
+                ", photo='" + photo + '\'' +
+                ", hinhAnh=" + hinhAnh +
+                ", danhMuc=" + danhMuc +
+                ", hangSanXuat=" + hangSanXuat +
+                '}';
+    }
 }

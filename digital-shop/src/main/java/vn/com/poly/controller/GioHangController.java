@@ -45,25 +45,10 @@ public class GioHangController {
     ChiMucGioHangService chiMucGioHangService;
 
     public static int PAGE_NUMBER = 32;
-
-//        System.out.println("Kiem tra " +session);
-//        String userName = (String) session.getAttribute("userName");
-//        // Lấy ra id nguoi Dung
-//        // Lấy ra gio hang
-//        // lấy ra danh sách sản phẩm
-//        // tính toán giá tiền tổng tiền
-//        // add vào 1 dto
-//        // gửi dto đến view để hiển thị (Không hiệu quả cho performent và phân trang , Bán laptop thì )
-//
-
-
-
     @GetMapping("/list-product")
     public String getAllProductByCart(@SessionAttribute("userName") String userName,
                                       @RequestParam(defaultValue = "0") String pageIndex,
                                       Model model) {
-        // Tạo ra 1 đối tượng phân trang .
-
         Pageable pageable;
         int page = Integer.parseInt(pageIndex);
         if (page == 1) {
@@ -73,39 +58,16 @@ public class GioHangController {
             page = page - 1;
         }
 
-
         pageable = PageRequest.of(page, PAGE_NUMBER);
-        // Lấy ra 1 page rồi add vào view .
 
         Page<ChiTietGioHangDto> chiTietGioHangDtoList = chiMucGioHangRepository.findAllByUserName(pageable,userName);
 
-        // Sang view làm giỏ hàng
         chiTietGioHangDtoList.forEach(chiTietGioHangDto -> {
             System.out.println(chiTietGioHangDto.toString());
         });
-
         model.addAttribute("listSanPhamByGioHang", chiTietGioHangDtoList);
-        // Hiển thị giỏ hàng
-
-
         return "views/cart/cart-list";
     }
-
-
-
-
-
-
-    // xóa 1 sản phẩm ra khỏi giỏ hàng
-
-    // Chỉnh sửa giỏ hàng
-
-
-
-
-
-
-
 
 
 }

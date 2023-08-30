@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.Authentication;
@@ -29,7 +30,7 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider(NguoiDungService nguoiDungService){
+    public DaoAuthenticationProvider authenticationProvider(NguoiDungService nguoiDungService) {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setUserDetailsService(nguoiDungService);
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
@@ -37,35 +38,33 @@ public class SecurityConfiguration {
 
     }
 
-
-
-
-
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(
-                configurer->configurer
+                configurer -> configurer
                         .requestMatchers("/user/**").permitAll()
                         .requestMatchers("/api/**").permitAll()
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/register/**").permitAll()
                         .requestMatchers("/san-phams/**").permitAll()
-                        .requestMatchers("/cart-api/**").permitAll()
                         .requestMatchers("/uploads/**").permitAll()
+                        .requestMatchers("/cart-api/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN", "ROLE_MANAGER")
+                        .requestMatchers("/admin-view/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_MANAGER")
+                        .requestMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_MANAGER")
                         .anyRequest().authenticated()
         ).formLogin(
-                form->form.loginPage("/login/showLoginPage")
-                        // chỉ định 1 url tùy chỉnh
+                form -> form.loginPage("/login/showLoginPage")
                         .successHandler(roleBasedSuccessHandler())
                         .loginProcessingUrl("/authenticateTheUser").permitAll()
         ).logout(
-                logout->logout.permitAll().logoutSuccessHandler(logoutSuccessHandler())
+                logout -> logout.permitAll().logoutSuccessHandler(logoutSuccessHandler())
         ).exceptionHandling(
-                configurer->configurer.accessDeniedPage("/showPage403")
+                configurer -> configurer.accessDeniedPage("/showPage403")
         );
 
         return http.build();
     }
+
     @Bean
     public AuthenticationSuccessHandler roleBasedSuccessHandler() {
         return new AuthenticationSuccessHandler() {
@@ -83,11 +82,7 @@ public class SecurityConfiguration {
                     SimpleUrlAuthenticationSuccessHandler handler = new SimpleUrlAuthenticationSuccessHandler();
                     HttpSession session = request.getSession();
                     String previousUrl = (String) session.getAttribute("previousUrl");
-                    System.out.println("Đến đây chưa lỗi 2 ");
-                    System.out.println("request" +previousUrl);
                     handler.setDefaultTargetUrl(previousUrl);
-                    // sử dụng tiêu đề Referer nếu người dùng không phải là admin
-                    System.out.println("Đến đây chưa lỗi 3 ");
                     handler.onAuthenticationSuccess(request, response, authentication); // gọi phương thức của lớp cha để chuyển hướng đến URL Referer
                 }
             }
@@ -97,11 +92,9 @@ public class SecurityConfiguration {
     @Bean
     public LogoutSuccessHandler logoutSuccessHandler() {
         SimpleUrlLogoutSuccessHandler handler = new SimpleUrlLogoutSuccessHandler();
-        // Cấu hnhf đối tượng logoutSuccessHandler khi đăng xuất thì chuyển hướng đến home
         handler.setDefaultTargetUrl("/");
         return handler;
     }
-
 
 
 }

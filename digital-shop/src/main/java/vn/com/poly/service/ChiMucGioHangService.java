@@ -14,5 +14,10 @@ public interface ChiMucGioHangService {
 
     ChiMucGioHang findChiMucGioHangByGioHangAndSanPham(GioHang gioHang,SanPham sanPham );
 
+    void deleteChiMucGioHang(ChiMucGioHang chiMucGioHang);
+
+    ChiMucGioHang findChiMucGioHangBySanPham(SanPham sanPham);
+
+
 
 }

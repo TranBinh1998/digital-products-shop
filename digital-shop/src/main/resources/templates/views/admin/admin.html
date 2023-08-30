@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{views/common/head-admin :: commonHeadAdmin}"></head>
+
+
+<body id="default_theme" class="it_service">
+
+<header th:replace="~{views/common/header-admin :: commonHeaderAdmin}"></header>
+
+<div>
+    <div style="width: 92%; margin:  0 auto" class="">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="full ">
+                    <div class="d-flex justify-content-md-between mb-3 align-items-center">
+                        <select id="selectProduct" class="mr-5 mb-0 form-select-lg form-control-lg">
+                            <div th:each="danhMuc : ${danhMucs}">
+                                <option th:value="${danhMuc.id}" value="" th:text="${danhMuc.tenDanhMuc}"></option>
+                            </div>
+                        </select>
+                        <div th:each="hsx : ${hangSanXuats}">
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input class="checkEventBrand form-check-input" th:value="${hsx.id}"
+                                           type="checkbox">
+                                    <label class="form-check-label" th:text="${hsx.tenHangSanXuat}"></label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <select id="selecsort" class="mb-0 form-select-lg form-control-lg">
+                            <option value="1">Sản Phẩm Mới Nhất</option>
+                            <option value="4">Sản Phẩm Cũ Nhất</option>
+                            <option value="5">Tồn Kho (Tăng)</option>
+                            <option value="6">Tồn Kho (Giảm)</option>
+                            <option value="2">Giá giảm đần</option>
+                            <option value="3">Giá tăng dần</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div id="products" class="card-body">
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- End Model search bar -->
+<!-- footer -->
+<footer th:replace="~{views/common/footer-admin :: footeradmin}"></footer>
+
+<!-- jQuery -->
+<!--  th:src="@{/admin/}"  -->
+
+<script th:src="@{/admin-view/plugins/jquery/jquery.min.js}" src="plugins/jquery/jquery.min.js"></script>
+
+<script th:src="@{/admin-view/plugins/jquery-ui/jquery-ui.min.js}"
+        src="plugins/jquery-ui/jquery-ui.min.js"></script>
+
+<script>
+    $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/admin-view/plugins/bootstrap/js/bootstrap.bundle.min.js}"
+        src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- ChartJS -->
+<script th:src="@{/admin-view/plugins/chart.js/Chart.min.js}" src="plugins/chart.js/Chart.min.js"></script>
+<!-- Sparkline -->
+<script th:src="@{/admin-view/plugins/sparklines/sparkline.js}" src="plugins/sparklines/sparkline.js"></script>
+<!-- JQVMap -->
+<script th:src="@{/admin-view/plugins/jqvmap/jquery.vmap.min.js}" src="plugins/jqvmap/jquery.vmap.min.js"></script>
+<script th:src="@{/admin-view/plugins/jqvmap/maps/jquery.vmap.usa.js}"
+        src="plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+<!-- jQuery Knob Chart -->
+<script th:src="@{/admin-view/plugins/jquery-knob/jquery.knob.min.js}"
+        src="plugins/jquery-knob/jquery.knob.min.js"></script>
+<!-- daterangepicker -->
+<script th:src="@{/admin-view/plugins/moment/moment.min.js}" src="plugins/moment/moment.min.js"></script>
+<script th:src="@{/admin-view/plugins/daterangepicker/daterangepicker.js}"
+        src="plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script th:src="@{/admin-view/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js}"
+        src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Summernote -->
+<script th:src="@{/admin-view/plugins/summernote/summernote-bs4.min.js}"
+        src="plugins/summernote/summernote-bs4.min.js"></script>
+<!-- overlayScrollbars -->
+<script th:src="@{/admin-view/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"
+        src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/admin-view/dist/js/adminlte.js}" src="dist/js/adminlte.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script th:src="@{/admin-view/dist/js/demo.js}" src="dist/js/demo.js"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script th:src="@{/admin-view/dist/js/pages/dashboard.js}" src="dist/js/pages/dashboard.js"></script>
+
+<script>
+    var pageIndex = 1;
+
+    function getProducts(productType, productSort, listBrand, pageIndex) {
+        $.ajax({
+            url: "/admin/view-product?productType=" + productType + "&productSort=" + productSort + "&productBrand=" + listBrand + "&pageIndex=" + pageIndex,
+            type: "GET",
+            contentType: "application/json",
+        }).done(function (data) {
+            // Nhận được fragment html từ server và chèn vào div có id là products
+            $("#products").html(data);
+            window.scrollTo(1, 1);
+        });
+    }
+
+    $(document).ready(function () {
+        // Gán giá trị của select box là 1
+        $('#selectProduct').val(1);
+        // Kích hoạt sự kiện change cho select box
+        $('#selectProduct').change();
+        // kích hoạt sự kiện cho checkboxx
+        $('#selecsort').val(1)
+        // Kích hoạt sự kiện cho selecsort
+        $('#selecsort').change();
+    });
+    var listBrand = [];
+    $('.checkEventBrand').change(function () {
+        listBrand.splice(0, listBrand.length);
+        $('.checkEventBrand:checked').each(function () {
+            listBrand.push($(this).val());
+        });
+        var productType = $('#selectProduct').val();
+        var page = '0';
+        var productSort = $('#selecsort').val();
+        getProducts(productType, productSort, listBrand, pageIndex);
+    });
+    $('#selectProduct').change(function () {
+        var page = '0';
+        var productSort = $('#selecsort').val();
+        var productType = $(this).val();
+        getProducts(productType, productSort, listBrand, page);
+    });
+    $('#selecsort').change(function () {
+        // Lấy giá trị của select box
+        var page = '0';
+        var productSort = $(this).val();
+        var productType = $('#selectProduct').val();
+        getProducts(productType, productSort, listBrand, page);
+    });
+    var page = 1;
+    $('body').on("click", '.pageIndex', function () {
+        page = $(this).text();
+        var productSort = $('#selecsort').val();
+        var productType = $('#selectProduct').val();
+        // Gửi yêu cầu ajax đến url /getProducts với tham số là productType
+        getProducts(productType, productSort, listBrand, page);
+    });
+    $('body').on("click", "#next-page-btn", function () {
+        var productSort = $('#selecsort').val();
+        var productType = $('#selectProduct').val();
+        page = Number(page) + 1;
+        getProducts(productType, productSort, listBrand, page);
+    });
+    $('body').on("click", "#previous-btn", function () {
+        var productSort = $('#selecsort').val();
+        var productType = $('#selectProduct').val();
+        page = Number(page) - 1;
+        getProducts(productType, productSort, listBrand, page);
+    });
+
+    function deleteProducts(idProduct) {
+        console.log("đã gọi hàm xóa");
+        $.ajax({
+            url: "/api-admin/delete-product/" + idProduct,
+            type: "GET",
+            contentType: "application/json",
+            data: {id: idProduct }
+        }).done(function (data) {
+            // Nhận được fragment html từ server và chèn vào div có id là products
+            location.reload(true);
+        });
+    }
+    $ ('body').on ('click', '.btn-delete', function () {
+        deleteProducts(this.value);
+    });
+
+    // var deleteButton = document.getElementsByClassName("btn btn-delete btn-block bg-gradient-info btn-sm");
+    // console.log("size =" +deleteButton.length);
+    // for (let i = 0; i < deleteButton.length; i++) {
+    //     deleteButton[i].onclick = function () {
+    //         console.log("gọi hàm xóa");
+    //         deleteProducts(this.value);
+    //     }
+    // }
+
+
+
+
+
+</script>
+
+</body>
+</html>

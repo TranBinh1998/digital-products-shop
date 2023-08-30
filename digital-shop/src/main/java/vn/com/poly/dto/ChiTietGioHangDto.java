@@ -6,6 +6,7 @@ import java.util.Objects;
 
 public class ChiTietGioHangDto {
 
+    private long idSanPham;
     private String tenSanPham;
     private int soLuong;
     private long donGia;
@@ -15,7 +16,16 @@ public class ChiTietGioHangDto {
     public ChiTietGioHangDto() {
     }
 
-    public ChiTietGioHangDto(String tenSanPham, int soLuong, long donGia, String photo, long totalPrice) {
+    public long getIdSanPham() {
+        return idSanPham;
+    }
+
+    public void setIdSanPham(long idSanPham) {
+        this.idSanPham = idSanPham;
+    }
+
+    public ChiTietGioHangDto(long idSanPham, String tenSanPham, int soLuong, long donGia, String photo, long totalPrice) {
+        this.idSanPham = idSanPham;
         this.tenSanPham = tenSanPham;
         this.soLuong = soLuong;
         this.donGia = donGia;
@@ -66,7 +76,8 @@ public class ChiTietGioHangDto {
     @Override
     public String toString() {
         return "ChiTietGioHangDto{" +
-                "tenSanPham='" + tenSanPham + '\'' +
+                "idSanPham=" + idSanPham +
+                ", tenSanPham='" + tenSanPham + '\'' +
                 ", soLuong=" + soLuong +
                 ", donGia=" + donGia +
                 ", photo='" + photo + '\'' +

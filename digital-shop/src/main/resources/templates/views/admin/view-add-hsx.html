@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{views/common/head-admin :: commonHeadAdmin}"></head>
+
+
+<body id="default_theme" class="it_service">
+
+<header th:replace="~{views/common/header-admin :: commonHeaderAdmin}"></header>
+
+<div class="container">
+
+    <div class="row">
+
+
+        <div class="col-md-12">
+            <form action="" th:action="@{/admin/save-hsx}" th:object="${hsx}" method="post">
+            <div class="card card-primary">
+
+                    <div class="card-header">
+                        <h3 class="card-title">Thêm hãng sản xuất</h3>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="">Tên hãng sản xuất</label>
+                            <input type="email" class="form-control" th:field="*{tenHangSanXuat}" id="" placeholder="Nhập tên hãng sản xuất" required>
+                        </div>
+                    </div>
+            </div>
+                <button type="submit" class="btn btn-primary">ADD Hãng Sản Xuất</button>
+            </form>
+        </div>
+        <!--/.col (left) -->
+        <!-- right column -->
+
+    </div>
+
+    <!-- /.card-body -->
+</div>
+
+
+<!-- End Model search bar -->
+<!-- footer -->
+<footer th:replace="~{views/common/footer-admin :: footeradmin}"></footer>
+
+<!-- jQuery -->
+<!--  th:src="@{/admin/}"  -->
+
+<script th:src="@{/admin-view/plugins/jquery/jquery.min.js}" src="plugins/jquery/jquery.min.js"></script>
+
+<script th:src="@{/admin-view/plugins/jquery-ui/jquery-ui.min.js}"
+        src="plugins/jquery-ui/jquery-ui.min.js"></script>
+
+<script>
+    $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/admin-view/plugins/bootstrap/js/bootstrap.bundle.min.js}"
+        src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- ChartJS -->
+<script th:src="@{/admin-view/plugins/chart.js/Chart.min.js}" src="plugins/chart.js/Chart.min.js"></script>
+<!-- Sparkline -->
+<script th:src="@{/admin-view/plugins/sparklines/sparkline.js}" src="plugins/sparklines/sparkline.js"></script>
+<!-- JQVMap -->
+<script th:src="@{/admin-view/plugins/jqvmap/jquery.vmap.min.js}" src="plugins/jqvmap/jquery.vmap.min.js"></script>
+<script th:src="@{/admin-view/plugins/jqvmap/maps/jquery.vmap.usa.js}"
+        src="plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+<!-- jQuery Knob Chart -->
+<script th:src="@{/admin-view/plugins/jquery-knob/jquery.knob.min.js}"
+        src="plugins/jquery-knob/jquery.knob.min.js"></script>
+<!-- daterangepicker -->
+<script th:src="@{/admin-view/plugins/moment/moment.min.js}" src="plugins/moment/moment.min.js"></script>
+<script th:src="@{/admin-view/plugins/daterangepicker/daterangepicker.js}"
+        src="plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script th:src="@{/admin-view/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js}"
+        src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Summernote -->
+<script th:src="@{/admin-view/plugins/summernote/summernote-bs4.min.js}"
+        src="plugins/summernote/summernote-bs4.min.js"></script>
+<!-- overlayScrollbars -->
+<script th:src="@{/admin-view/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"
+        src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/admin-view/dist/js/adminlte.js}" src="dist/js/adminlte.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script th:src="@{/admin-view/dist/js/demo.js}" src="dist/js/demo.js"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script th:src="@{/admin-view/dist/js/pages/dashboard.js}" src="dist/js/pages/dashboard.js"></script>

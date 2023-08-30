@@ -25,6 +25,7 @@
                     <div class="col-xl-6 col-lg-12 col-md-12 product_detail_side detail_style1">
                         <div class="product-heading">
                             <h2 th:text="${sanPham.tenSanPham}"></h2>
+                            <span id="idProduct" hidden th:text="${sanPham.id}"></span>
                         </div>
                         <div class="product-detail-side"><span><del>$25.00</del></span><span></span> <span
                                 th:text="${#numbers.formatDecimal(sanPham.donGia, 0, 'COMMA', 0, 'POINT')} + '  đ'"
@@ -33,10 +34,11 @@
                             <p th:text="${sanPham.thongTinChung}"></p>
                             <div class="cart" >
                                 <div class="quantity">
-                                    <input step="1" min="1" max="5" name="quantity" value="1" title="Qty"
+                                    <input id="quantity" step="1" min="1" max="5" name="quantity" value="1" title="Qty"
                                            class="input-text qty text" size="4" type="number">
                                 </div>
-                                <button type="button" onclick="addProductToCart()" class="btn sqaure_bt">Add to cart</button>
+                                <button style="min-width: 160px !important;" type="button" onclick="addProductToCart()" class="btn sqaure_bt ">Thêm Vào Giỏ Hàng</button>
+                                <button style="min-width: 130px !important;"  type="button"  class="mr-3 btn sqaure_bt">Mua Ngay</button>
                             </div>
                         </div>
                         <div class="share-post"><a href="#" class="share-text">Share</a>
@@ -371,20 +373,34 @@
 <script th:src="@{/user/js/jquery.min.js}"></script>
 <script th:src="@{/user/js/bootstrap.min.js}"></script>
 <script>
-    console.log("Viết code add sản phẩm giỏ hàng ở đây");
-    // Tạo 1jsson
-
-
     function addProductToCart() {
+        let userName = document.getElementById("userName").textContent;
+        let idProduct = document.getElementById("idProduct").textContent;
+        let quantity = document.getElementById("quantity").value;
+        if (userName == null || userName == "" ) {
+            swal({
+                title: "Bạn chưa đăng nhập !", // The title of the alert
+                text: "", // The content of the alert
+                icon: "error", // The icon of the alert (success, error, warning, info)
+                button: "OK", // The text of the button
+                closeOnClickOutside: false, // Prevent closing the alert by clicking outside
+                closeOnEsc: false // Prevent closing the alert by pressing Esc
+            });
+
+            return false;
+        }
         $.ajax({
-            url: "/cart-api/cart-products?userName=" + "chicken" + "&idProduct=" + "6" + "&soLuong=" + "1",
+            url: "/cart-api/cart-products?userName=" + userName + "&idProduct=" + idProduct + "&soLuong=" + quantity,
             type: "GET",
             contentType: "application/json",
         }).done(function (data) {
+            // console.log(data.sanPham); nhận về 1 data là
             // Xử lý dữ liệu trả về từ server
+
+            let quantityByCart = data.soLuong;
             swal({
                 title: "Đã thêm sản phẩm vào giỏ hàng!", // The title of the alert
-                text: "Vào giỏ hàng để xem chi tiết giỏ hàng", // The content of the alert
+                text: "Có "+quantityByCart+" sản phẩm trong giỏ hàng", // The content of the alert
                 icon: "success", // The icon of the alert (success, error, warning, info)
                 button: "OK", // The text of the button
                 closeOnClickOutside: false, // Prevent closing the alert by clicking outside
@@ -402,30 +418,6 @@
             });
         });
     }
-
-
-
-
-
-
-
-
-
-    // Đoạn code dùng get gửi về server. Được nhưng k hợp lí
-
-    // function addProductToCart() {
-    //     // productId, userName, quantity
-    //     // Gửi yêu cầu ajax đến url /getProducts với tham số là productType
-    //
-    //     $.ajax({
-    //         url: "/cart-api/cart-products?userName=" + "chicken" + "&idProduct=" + "5" + "&soLuong=" + "1",
-    //         type: "POST",
-    //         contentType: "application/json",
-    //     }).done(function (data) {
-    //         // Nhận được fragment html từ server và chèn vào div có id là products
-    //         alert("ok")
-    //     });
-    // }
 
 
 

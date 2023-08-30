@@ -16,4 +16,12 @@ public interface SanPhamService {
 
     SanPham findSanPhamById(Long id);
 
+    Page<SanPham> getProductsByCategory(String productType, String productSort, String pageIndex, int PAGE_NUMBER);
+
+    void deleteSanPham(SanPham sanPham);
+
+    void deleteImgProduct(String imgName);
+
+
+    void saveProduct(SanPham sanPham);
 }
